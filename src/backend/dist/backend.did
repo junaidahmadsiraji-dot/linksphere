@@ -1,0 +1,295 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = 
+ record {
+   avatar: opt ExternalBlob;
+   bio: opt text;
+   coverPhoto: opt ExternalBlob;
+   createdAt: Timestamp;
+   id: UserId;
+   isBanned: bool;
+   isVerified: bool;
+   username: text;
+ };
+type UserId = principal;
+type Timestamp = int;
+type StoryInput = record {image: ExternalBlob;};
+type StoryId = nat;
+type StoryGroup = 
+ record {
+   authorId: UserId;
+   authorName: text;
+   stories: vec Story;
+ };
+type Story = 
+ record {
+   authorId: UserId;
+   authorName: text;
+   createdAt: Timestamp;
+   expiresAt: Timestamp;
+   id: StoryId;
+   image: ExternalBlob;
+   viewedBy: vec UserId;
+ };
+type ReelInput = 
+ record {
+   description: text;
+   mediaType: MediaType;
+   mediaUrl: ExternalBlob;
+   title: text;
+ };
+type ReelId = nat;
+type Reel = 
+ record {
+   authorId: UserId;
+   authorIsVerified: bool;
+   authorName: text;
+   createdAt: Timestamp;
+   description: text;
+   id: ReelId;
+   likedBy: vec UserId;
+   mediaType: MediaType;
+   mediaUrl: ExternalBlob;
+   savedBy: vec UserId;
+   title: text;
+ };
+type ProductInput = 
+ record {
+   description: text;
+   image: opt ExternalBlob;
+   price: float64;
+   title: text;
+ };
+type ProductId = nat;
+type Product = 
+ record {
+   createdAt: Timestamp;
+   createdBy: UserId;
+   description: text;
+   id: ProductId;
+   image: opt ExternalBlob;
+   price: float64;
+   title: text;
+ };
+type PostView = 
+ record {
+   author: UserId;
+   authorAvatar: opt ExternalBlob;
+   authorIsVerified: bool;
+   authorName: text;
+   commentCount: nat;
+   createdAt: Timestamp;
+   flagCount: nat;
+   id: PostId;
+   image: opt ExternalBlob;
+   likeCount: nat;
+   likedByMe: bool;
+   "text": text;
+ };
+type PostInput = 
+ record {
+   image: opt ExternalBlob;
+   "text": text;
+ };
+type PostId = nat;
+type Notification = 
+ record {
+   actorId: UserId;
+   actorName: text;
+   createdAt: Timestamp;
+   id: NotifId;
+   isRead: bool;
+   message: text;
+   notifType: NotifType;
+   targetId: opt nat;
+   targetType: opt text;
+   userId: UserId;
+ };
+type NotifType = 
+ variant {
+   comment_post;
+   friend_accept;
+   friend_request;
+   like_post;
+   verified_granted;
+ };
+type NotifId = nat;
+type ModerationAction = 
+ variant {
+   approve;
+   delete;
+ };
+type MediaType = 
+ variant {
+   image;
+   video;
+ };
+type FriendView = 
+ record {
+   avatar: opt ExternalBlob;
+   mutualFriendCount: nat;
+   status: FriendStatus;
+   userId: UserId;
+   username: text;
+ };
+type FriendStatus = 
+ variant {
+   friends;
+   none;
+   received;
+   sent;
+ };
+type FileRecord = 
+ record {
+   "blob": ExternalBlob;
+   description: text;
+   id: FileId;
+   title: text;
+   uploadedAt: Timestamp;
+   uploadedBy: UserId;
+   uploaderName: text;
+ };
+type FileInput = 
+ record {
+   "blob": ExternalBlob;
+   description: text;
+   title: text;
+ };
+type FileId = nat;
+type ExternalBlob = blob;
+type EngagementStats = 
+ record {
+   avgLikesPerPost: nat;
+   totalComments: nat;
+   totalLikes: nat;
+ };
+type DailyCount = 
+ record {
+   count: nat;
+   date: text;
+ };
+type CommentView = 
+ record {
+   author: UserId;
+   authorAvatar: opt ExternalBlob;
+   authorName: text;
+   createdAt: Timestamp;
+   id: CommentId;
+   postId: PostId;
+   "text": text;
+ };
+type CommentId = nat;
+type AnalyticsResult = 
+ record {
+   engagementStats: EngagementStats;
+   postActivity: vec DailyCount;
+   userGrowth: vec DailyCount;
+ };
+type AdminStats = 
+ record {
+   totalFiles: nat;
+   totalPosts: nat;
+   totalProducts: nat;
+   totalUsers: nat;
+ };
+type AdminSessionToken = text;
+type AdminSession = 
+ record {
+   adminEmail: text;
+   createdAt: Timestamp;
+   token: AdminSessionToken;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  acceptFriendRequest: (from: UserId) -> ();
+  addAdmin: (token: AdminSessionToken, email: text, password: text) -> ();
+  addComment: (postId: PostId, "text": text) -> (CommentView);
+  adminBanUser: (token: AdminSessionToken, userId: UserId) -> ();
+  adminLogin: (email: text, password: text) -> (opt AdminSession);
+  adminLogout: (token: AdminSessionToken) -> ();
+  adminUnbanUser: (token: AdminSessionToken, userId: UserId) -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  banUser: (token: AdminSessionToken, userId: UserId) -> ();
+  cancelFriendRequest: (to: UserId) -> ();
+  createPost: (input: PostInput) -> (PostView);
+  createProduct: (input: ProductInput) -> (Product);
+  createReel: (input: ReelInput) -> (Reel);
+  createStory: (input: StoryInput) -> (Story);
+  deleteComment: (commentId: CommentId) -> (bool);
+  deleteFile: (fileId: FileId) -> (bool);
+  deletePost: (postId: PostId) -> (bool);
+  deleteProduct: (productId: ProductId) -> (bool);
+  deleteReel: (reelId: ReelId) -> (bool);
+  deleteStory: (storyId: StoryId) -> (bool);
+  deleteUser: (token: AdminSessionToken, userId: UserId) -> ();
+  flagPost: (postId: PostId, reason: text) -> ();
+  getAdminStats: (token: AdminSessionToken) -> (AdminStats) query;
+  getAllUsers: (token: AdminSessionToken, page: nat, pageSize: nat) ->
+   (vec UserProfile) query;
+  getAnalytics: (token: AdminSessionToken) -> (AnalyticsResult) query;
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getFlaggedPosts: (token: AdminSessionToken) -> (vec PostView) query;
+  getFriendRequests: () -> (vec FriendView) query;
+  getFriendSuggestions: () -> (vec FriendView) query;
+  getFriends: () -> (vec FriendView) query;
+  getNewsfeed: () -> (vec PostView) query;
+  getNotifications: () -> (vec Notification) query;
+  getPostComments: (postId: PostId) -> (vec CommentView) query;
+  getReels: (page: nat, pageSize: nat) -> (vec Reel) query;
+  getSentRequests: () -> (vec FriendView) query;
+  getStories: () -> (vec StoryGroup) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  grantVerifiedTick: (token: AdminSessionToken, userId: UserId) -> ();
+  isCallerAdmin: () -> (bool) query;
+  likePost: (postId: PostId) -> (bool);
+  likeReel: (reelId: ReelId) -> (bool);
+  listAdmins: (token: AdminSessionToken) -> (vec text) query;
+  listFiles: () -> (vec FileRecord) query;
+  listProducts: () -> (vec Product) query;
+  markAllNotificationsRead: () -> ();
+  markNotificationRead: (notifId: NotifId) -> ();
+  markStoryViewed: (storyId: StoryId) -> ();
+  moderatePost: (token: AdminSessionToken, postId: PostId, action:
+   ModerationAction) -> ();
+  rejectFriendRequest: (from: UserId) -> ();
+  removeAdmin: (token: AdminSessionToken, email: text) -> ();
+  revokeVerifiedTick: (token: AdminSessionToken, userId: UserId) -> ();
+  saveCallerUserProfile: (username: text, avatar: opt ExternalBlob) -> ();
+  saveReel: (reelId: ReelId) -> (bool);
+  sendFriendRequest: (to: UserId) -> ();
+  unbanUser: (token: AdminSessionToken, userId: UserId) -> ();
+  unfriend: (userId: UserId) -> ();
+  updateProfileAvatar: (avatar: ExternalBlob) -> ();
+  updateProfileBio: (bio: text) -> ();
+  updateProfileCoverPhoto: (coverPhoto: ExternalBlob) -> ();
+  updateProfileUsername: (username: text) -> ();
+  uploadFile: (input: FileInput) -> (FileRecord);
+  validateAdminSession: (token: AdminSessionToken) -> (bool) query;
+}

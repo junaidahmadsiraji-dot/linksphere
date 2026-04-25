@@ -1,0 +1,324 @@
+// Version: 3.0.0
+type AdminRecord__913691534 = {email : Text; passwordHash : Text};
+type AdminSessionToken__485226764 = Text;
+type AdminSession__385189963 =
+  {
+    adminEmail : Text;
+    createdAt : Timestamp__301639476;
+    token : AdminSessionToken__485226764
+  };
+type CommentId__821569710 = Nat;
+type Comment__220674806 =
+  {
+    author : UserId__158757552;
+    createdAt : Timestamp__301639476;
+    id : CommentId__821569710;
+    postId : PostId__861309770;
+    text : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__671167343 = Blob;
+type FileId__283657257 = Nat;
+type FileRecord__132143189 =
+  {
+    blob : ExternalBlob__671167343;
+    description : Text;
+    id : FileId__283657257;
+    title : Text;
+    uploadedAt : Timestamp__301639476;
+    uploadedBy : UserId__158757552;
+    uploaderName : Text
+  };
+type FlagRecord__816698439 =
+  {
+    createdAt : Timestamp__301639476;
+    flaggedBy : UserId__158757552;
+    postId : PostId__861309770;
+    reason : Text
+  };
+type FriendRequest__577060681 =
+  {
+    createdAt : Timestamp__301639476;
+    from : UserId__158757552;
+    to : UserId__158757552
+  };
+type Friendship__847570761 =
+  {
+    createdAt : Timestamp__301639476;
+    userA : UserId__158757552;
+    userB : UserId__158757552
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type MediaType__390316903 = {#image; #video};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type NotifId__548738763 = Nat;
+type NotifType__852808086 =
+  {
+    #comment_post;
+    #friend_accept;
+    #friend_request;
+    #like_post;
+    #verified_granted
+  };
+type Notification__264708741 =
+  {
+    actorId : UserId__158757552;
+    actorName : Text;
+    createdAt : Timestamp__301639476;
+    id : NotifId__548738763;
+    isRead : Bool;
+    message : Text;
+    notifType : NotifType__852808086;
+    targetId : ?Nat;
+    targetType : ?Text;
+    userId : UserId__158757552
+  };
+type OldComment__646683993 =
+  {
+    author : UserId__158757552;
+    createdAt : Timestamp__301639476;
+    id : CommentId__821569710;
+    postId : PostId__861309770;
+    text : Text
+  };
+type OldPost__784581407 =
+  {
+    author : UserId__158757552;
+    createdAt : Timestamp__301639476;
+    id : PostId__861309770;
+    image : ?ExternalBlob__671167343;
+    isFlagged : Bool;
+    likedBy : [UserId__158757552];
+    text : Text
+  };
+type OldUserProfile__416069324 =
+  {
+    avatar : ?ExternalBlob__671167343;
+    bio : ?Text;
+    coverPhoto : ?ExternalBlob__671167343;
+    createdAt : Timestamp__301639476;
+    id : UserId__158757552;
+    isBanned : Bool;
+    isVerified : Bool;
+    username : Text
+  };
+type PostId__861309770 = Nat;
+type Post__11760342 =
+  {
+    author : UserId__158757552;
+    createdAt : Timestamp__301639476;
+    id : PostId__861309770;
+    image : ?ExternalBlob__671167343;
+    isFlagged : Bool;
+    likedBy : [UserId__158757552];
+    text : Text
+  };
+type ProductId__160010635 = Nat;
+type Product__750902660 =
+  {
+    createdAt : Timestamp__301639476;
+    createdBy : UserId__158757552;
+    description : Text;
+    id : ProductId__160010635;
+    image : ?ExternalBlob__671167343;
+    price : Float;
+    title : Text
+  };
+type ReelId__213195052 = Nat;
+type Reel__790301563 =
+  {
+    authorId : UserId__158757552;
+    authorIsVerified : Bool;
+    authorName : Text;
+    createdAt : Timestamp__301639476;
+    description : Text;
+    id : ReelId__213195052;
+    likedBy : [UserId__158757552];
+    mediaType : MediaType__390316903;
+    mediaUrl : ExternalBlob__671167343;
+    savedBy : [UserId__158757552];
+    title : Text
+  };
+type StoryId__128844645 = Nat;
+type Story__569850689 =
+  {
+    authorId : UserId__158757552;
+    authorName : Text;
+    createdAt : Timestamp__301639476;
+    expiresAt : Timestamp__301639476;
+    id : StoryId__128844645;
+    image : ExternalBlob__671167343;
+    viewedBy : [UserId__158757552]
+  };
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type UserProfile__446616884 =
+  {
+    avatar : ?ExternalBlob__671167343;
+    bio : ?Text;
+    coverPhoto : ?ExternalBlob__671167343;
+    createdAt : Timestamp__301639476;
+    id : UserId__158757552;
+    isBanned : Bool;
+    isVerified : Bool;
+    username : Text
+  };
+type UserRole__1073662873 = {#admin; #guest; #user};
+actor ({
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable admins :
+    {
+      var root : Node__46230540<Text, AdminRecord__913691534>;
+      var size : Nat__490723111
+    };
+  in comments : List__415060402<OldComment__646683993>;
+  in files : List__415060402<FileRecord__132143189>;
+  stable flags :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FlagRecord__816698439]];
+      var elementIndex : Nat__490723111
+    };
+  stable friendRequests :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FriendRequest__577060681]];
+      var elementIndex : Nat__490723111
+    };
+  stable friendships :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Friendship__847570761]];
+      var elementIndex : Nat__490723111
+    };
+  stable notifications :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Notification__264708741]];
+      var elementIndex : Nat__490723111
+    };
+  in posts : List__415060402<OldPost__784581407>;
+  in products : List__415060402<Product__750902660>;
+  in profiles : Map__605269027<UserId__158757552, OldUserProfile__416069324>;
+  stable reels :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Reel__790301563]];
+      var elementIndex : Nat__490723111
+    };
+  stable sessions :
+    {
+      var root :
+        Node__46230540<AdminSessionToken__485226764, AdminSession__385189963>;
+      var size : Nat__490723111
+    };
+  stable stories :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Story__569850689]];
+      var elementIndex : Nat__490723111
+    }
+}, {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable admins :
+    {
+      var root : Node__46230540<Text, AdminRecord__913691534>;
+      var size : Nat__490723111
+    };
+  stable comments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Comment__220674806]];
+      var elementIndex : Nat__490723111
+    };
+  stable files :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FileRecord__132143189]];
+      var elementIndex : Nat__490723111
+    };
+  stable flags :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FlagRecord__816698439]];
+      var elementIndex : Nat__490723111
+    };
+  stable friendRequests :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FriendRequest__577060681]];
+      var elementIndex : Nat__490723111
+    };
+  stable friendships :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Friendship__847570761]];
+      var elementIndex : Nat__490723111
+    };
+  stable notifications :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Notification__264708741]];
+      var elementIndex : Nat__490723111
+    };
+  stable posts :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Post__11760342]];
+      var elementIndex : Nat__490723111
+    };
+  stable products :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Product__750902660]];
+      var elementIndex : Nat__490723111
+    };
+  stable profiles :
+    {
+      var root : Node__46230540<UserId__158757552, UserProfile__446616884>;
+      var size : Nat__490723111
+    };
+  stable reels :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Reel__790301563]];
+      var elementIndex : Nat__490723111
+    };
+  stable sessions :
+    {
+      var root :
+        Node__46230540<AdminSessionToken__485226764, AdminSession__385189963>;
+      var size : Nat__490723111
+    };
+  stable stories :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Story__569850689]];
+      var elementIndex : Nat__490723111
+    }
+}) ;

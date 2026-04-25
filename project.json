@@ -1,0 +1,28 @@
+{
+  "overview": "LinkSphere is a Facebook-like social media platform paired with Siraji, a powerful admin panel. Users enjoy a full social experience with feed, reels, friends, stories, and verified profiles. Admins control everything through a separate dashboard with user management, post moderation, analytics, and content tools.",
+  "features": [
+    "Facebook-like newsfeed with stories and posts",
+    "Reels vertical video/image feed",
+    "Friends system with requests and suggestions",
+    "Notifications feed grouped by activity",
+    "User profiles with cover photo and verified tick",
+    "Siraji Admin Panel at /admin with email+password login",
+    "Admin dashboard with stats cards and activity timeline",
+    "User management: ban, verify, delete, assign roles",
+    "Post moderation queue with approve/delete actions",
+    "Verified tick badge system managed from admin panel",
+    "Product and file management from admin panel",
+    "Analytics charts: user growth, post activity, engagement",
+    "Admin settings: accounts, branding, moderation rules"
+  ],
+  "category": "social",
+  "tags": [
+    "social-media",
+    "admin-panel",
+    "facebook-like",
+    "content-management",
+    "user-management",
+    "analytics"
+  ],
+  "last_updated": "2026-04-25T00:42:41.278Z"
+}
